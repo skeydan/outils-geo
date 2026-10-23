@@ -1,0 +1,227 @@
+/* Shared styles for all tools (shell taken from the sibling outils-plantes).
+   Light and dark are both designed (not an automatic flip). Palette: cyan
+   (interaction, "your water"), green (brand, links), subtle yellow (notes).
+   The earthy ordinal ramp --g1..--g6 encodes weathering stage (fresh rock
+   light, most leached dark); contrast checked in both themes. */
+
+:root {
+  color-scheme: light;
+  --page: #f6f7f1;
+  --surface: #fdfdf9;
+  --surface-2: #f0f2ea;
+  --ink: #10201c;
+  --ink-2: #46544e;
+  --muted: #66716b;
+  --hairline: #dfe3da;
+  --border: rgba(16, 32, 28, 0.12);
+  --green: #1d7a4f;
+  --green-ink: #17643f;
+  --cyan: #0e98ad;
+  --cyan-strong: #087a8c;
+  --cyan-wash: #bfe3e6;
+  --yellow: #d9a400;
+  --yellow-wash: #f4e8bd;
+  --note: #fbf4d6;
+  --danger: #b4232f;
+  --focus: #087a8c;
+  --shadow: 0 1px 2px rgba(16, 32, 28, 0.06), 0 4px 16px rgba(16, 32, 28, 0.05);
+  --radius: 14px;
+  /* Two chart series (contrast checked on these surfaces). */
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  /* Texture groups, ordinal earthy ramp coarse -> fine (order and contrast checked),
+     with the label ink that reaches 4.5:1 on each step. */
+  --g1: #cfb070; --g2: #be975b; --g3: #ad7f48; --g4: #9c6737; --g5: #895028; --g6: #763a1c;
+  --on-g1: #10201c; --on-g2: #10201c; --on-g3: #10201c; --on-g4: #ffffff; --on-g5: #ffffff; --on-g6: #ffffff;
+  --mark: #0e98ad;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --page: #0d1412;
+    --surface: #151d1b;
+    --surface-2: #1d2724;
+    --ink: #e9f1ec;
+    --ink-2: #b9c6bf;
+    --muted: #8d9993;
+    --hairline: #2a3532;
+    --border: rgba(255, 255, 255, 0.10);
+    --green: #5cc994;
+    --green-ink: #7fd8ab;
+    --cyan: #1a9fb3;
+    --cyan-strong: #4cc3d4;
+    --cyan-wash: #17494f;
+    --yellow: #b48d1f;
+    --yellow-wash: #4b431c;
+    --note: #2e2a17;
+    --danger: #ff8f8f;
+    --focus: #4cc3d4;
+    --s1: #3987e5;
+    --s2: #d95926;
+    --g1: #624c23; --g2: #795c34; --g3: #916d46; --g4: #aa7e5a; --g5: #c3906f; --g6: #dca285;
+    --on-g1: #ffffff; --on-g2: #ffffff; --on-g3: #ffffff; --on-g4: #10201c; --on-g5: #10201c; --on-g6: #10201c;
+    --mark: #4cc3d4;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d1412;
+  --surface: #151d1b;
+  --surface-2: #1d2724;
+  --ink: #e9f1ec;
+  --ink-2: #b9c6bf;
+  --muted: #8d9993;
+  --hairline: #2a3532;
+  --border: rgba(255, 255, 255, 0.10);
+  --green: #5cc994;
+  --green-ink: #7fd8ab;
+  --cyan: #1a9fb3;
+  --cyan-strong: #4cc3d4;
+  --cyan-wash: #17494f;
+  --yellow: #b48d1f;
+  --yellow-wash: #4b431c;
+  --note: #2e2a17;
+  --danger: #ff8f8f;
+  --focus: #4cc3d4;
+  --s1: #3987e5;
+  --s2: #d95926;
+  --g1: #624c23; --g2: #795c34; --g3: #916d46; --g4: #aa7e5a; --g5: #c3906f; --g6: #dca285;
+  --on-g1: #ffffff; --on-g2: #ffffff; --on-g3: #ffffff; --on-g4: #10201c; --on-g5: #10201c; --on-g6: #10201c;
+  --mark: #4cc3d4;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font: 16px/1.55 var(--font);
+  color: var(--ink);
+  background: var(--page);
+}
+a { color: var(--green-ink); text-underline-offset: 2px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+h1, h2, h3 { line-height: 1.2; margin: 0 0 0.4em; }
+h1 { font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.1rem); letter-spacing: -0.01em; }
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1.05rem; }
+p { margin: 0 0 0.8em; }
+small, .small { font-size: 0.875rem; }
+.muted { color: var(--ink-2); }
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+/* Header */
+.site-header {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  max-width: 1180px; margin: 0 auto; padding: 14px 20px;
+}
+.brand {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-weight: 650; color: var(--ink); text-decoration: none; margin-right: auto;
+}
+.brand svg { flex: none; }
+.header-tools { display: flex; gap: 8px; align-items: center; }
+.chip-btn, .seg button {
+  font: inherit; font-size: 0.875rem; color: var(--ink);
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 999px; padding: 6px 12px; cursor: pointer; min-height: 36px;
+}
+.chip-btn:hover, .seg button:hover { background: var(--surface-2); }
+.seg { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; background: var(--surface); }
+.seg button { border: 0; border-radius: 0; }
+.seg button[aria-pressed="true"] { background: var(--cyan-wash); font-weight: 650; }
+
+main { max-width: 1180px; margin: 0 auto; padding: 4px 20px 48px; }
+.site-footer { max-width: 1180px; margin: 0 auto; padding: 24px 20px 40px; color: var(--ink-2); font-size: 0.875rem; }
+
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 18px;
+}
+.note {
+  background: var(--note); border-radius: 10px; padding: 10px 12px; font-size: 0.9rem;
+}
+
+/* Tab bar: one tab per tool, sitting on the strata band like folder tabs.
+   Scrolls sideways on narrow screens when there are many tabs. */
+.tabbar { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+.tablist {
+  display: flex; gap: 4px; overflow-x: auto; overscroll-behavior-x: contain;
+  scrollbar-width: none; scroll-padding-inline: 20px;
+}
+.tablist::-webkit-scrollbar { display: none; }
+.tablist [role="tab"] {
+  flex: none; font: inherit; font-size: 0.95rem; font-weight: 600; white-space: nowrap;
+  color: var(--ink-2); background: transparent; cursor: pointer;
+  min-height: 44px; padding: 8px 16px 9px;
+  border: 1px solid transparent; border-bottom: 0; border-top: 3px solid transparent;
+  border-radius: 10px 10px 0 0;
+}
+.tablist [role="tab"]:hover { background: var(--surface-2); color: var(--ink); }
+.tablist [role="tab"][aria-selected="true"] {
+  color: var(--ink); background: var(--surface); font-weight: 650;
+  border-color: var(--border); border-top-color: var(--cyan-strong);
+}
+.tablist [role="tab"]:focus-visible { outline-offset: -3px; }
+@media (forced-colors: active) {
+  .tablist [role="tab"][aria-selected="true"] { border-top-color: Highlight; text-decoration: underline; }
+}
+@media (max-width: 520px) {
+  .tabbar { padding: 0 8px; }
+  .tablist [role="tab"] { padding: 8px 12px 9px; }
+}
+.tab-panel:focus-visible { outline-offset: 6px; }
+
+/* A thin "weathering profile" band under the tabs: laterite on top, fresh rock below. */
+.strata { height: 8px; background: linear-gradient(to bottom, var(--g6) 0 25%, var(--g4) 25% 50%, var(--g2) 50% 75%, var(--muted) 75% 100%); }
+.tabbar + .strata { margin-bottom: 4px; }
+.site-header { padding-bottom: 6px; }
+h1 { background: linear-gradient(90deg, var(--green-ink), var(--cyan-strong)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+@media (forced-colors: active) { h1 { color: CanvasText; background: none; } }
+
+/* Calculator panels */
+.tool-cols { display: grid; gap: 18px; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; margin-top: 14px; }
+.tool-cols .wide { grid-column: 1 / -1; }
+@media (max-width: 880px) { .tool-cols { grid-template-columns: minmax(0, 1fr); } }
+.fields { display: grid; gap: 10px 14px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.field label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--ink-2); margin-bottom: 3px; }
+.field-in { position: relative; display: flex; align-items: center; }
+.field-in input, .field-in select {
+  width: 100%; font: inherit; padding: 8px 10px; border-radius: 9px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--ink); min-height: 42px; font-variant-numeric: tabular-nums;
+}
+.field-in input[aria-invalid="true"] { border-color: var(--danger); box-shadow: 0 0 0 1px var(--danger); }
+.field-in .unit { position: absolute; right: 10px; color: var(--ink-2); font-size: 0.85rem; pointer-events: none; }
+.field-in input:has(+ .unit) { padding-right: 3.6em; }
+.hint { font-size: 0.8rem; color: var(--ink-2); margin: 3px 0 0; }
+.card h2 .step { display: inline-grid; place-items: center; width: 1.6em; height: 1.6em; border-radius: 50%; background: var(--cyan-wash); color: var(--ink); font-size: 0.85em; margin-right: 6px; }
+.hero { font-size: clamp(2.2rem, 1.6rem + 2.4vw, 3.2rem); font-weight: 750; line-height: 1.05; margin: 2px 0; letter-spacing: -0.01em; }
+.hero small { font-size: 0.45em; font-weight: 600; color: var(--ink-2); margin-left: 4px; }
+.sub { color: var(--ink-2); margin: 0 0 8px; }
+.kv { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.kv th, .kv td { text-align: left; padding: 5px 4px; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+.kv td.v { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.kv td.eq { color: var(--ink-2); font-size: 0.8rem; white-space: nowrap; }
+.msg.error { color: var(--danger); }
+.err { color: var(--danger); font-size: 0.9rem; min-height: 1.2em; margin: 6px 0 0; }
+.facts { margin: 0; display: grid; gap: 10px; }
+.facts dt { font-weight: 650; font-size: 0.92rem; }
+.facts dd { margin: 2px 0 0; }
+.src { font-size: 0.78rem; vertical-align: super; line-height: 0; text-decoration: none; margin-left: 1px; }
+.sources ol { padding-left: 1.4em; margin: 0; display: grid; gap: 6px; font-size: 0.9rem; }
+.sources li:target, .sources li.is-target { background: var(--note); border-radius: 6px; }
+.radio-row { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.92rem; margin: 4px 0; }
+.radio-row label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+.meter { position: relative; height: 12px; border-radius: 6px; background: var(--surface-2); overflow: hidden; margin: 6px 0 2px; }
+.meter > span { position: absolute; top: 0; bottom: 0; left: 0; background: var(--cyan); border-radius: 6px; }
+.fields .field.select { grid-column: span 2; }
+label.check { display: flex; gap: 8px; align-items: flex-start; font-size: 0.92rem; margin: 6px 0; cursor: pointer; }
+label.check input { margin-top: 3px; }
+

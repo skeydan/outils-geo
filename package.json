@@ -1,0 +1,16 @@
+{
+  "name": "outils-geo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Small, sourced tools for geology and geochemistry. Static site.",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "serve": "python3 -m http.server 9427 --directory site",
+    "e2e": "node scripts/e2e.mjs",
+    "check-data": "node scripts/check-thermo.mjs"
+  },
+  "devDependencies": {
+    "playwright": "1.54"
+  }
+}

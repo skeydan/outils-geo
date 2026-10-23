@@ -1,0 +1,125 @@
+/* Rock key tab. Colours come from the shared tokens in site.css. */
+
+.rk .lead { max-width: 75ch; }
+.rk > .card { margin-top: 18px; }
+.rk-use > summary { cursor: pointer; list-style: none; }
+.rk-use > summary::-webkit-details-marker { display: none; }
+.rk-use > summary h2 { display: inline; }
+.rk-use > summary::after { content: " ▾"; color: var(--ink-2); }
+.rk-use[open] > summary::after { content: " ▴"; }
+.rk-use ol, .rk-use ul { padding-left: 1.3em; display: grid; gap: 4px; }
+
+/* Path and controls */
+.rk-path { border-bottom: 1px solid var(--hairline); padding-bottom: 10px; margin-bottom: 14px; }
+.rk-path-head { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.rk .field-label { font-size: 0.85rem; font-weight: 600; color: var(--ink-2); }
+.rk-controls { display: flex; gap: 8px; }
+.rk-controls button { min-height: 44px; padding: 6px 16px; }
+.rk-controls button:disabled { opacity: 0.45; cursor: default; }
+.rk-crumbs { list-style: none; margin: 8px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; counter-reset: crumb; }
+.rk-crumbs li { counter-increment: crumb; }
+.rk-crumbs a {
+  display: inline-flex; flex-wrap: wrap; gap: 0 6px; align-items: baseline; text-decoration: none; color: var(--ink);
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 4px 10px; font-size: 0.85rem; min-height: 32px;
+}
+.rk-crumbs a::before { content: counter(crumb); font-weight: 700; color: var(--cyan-strong); }
+.rk-crumbs a:hover { border-color: var(--cyan); }
+.rk-crumb-q { color: var(--ink-2); }
+.rk-crumb-a { font-weight: 650; }
+.rk-crumbs-empty { margin: 6px 0 0; }
+
+/* Question */
+.rk-step h2 { font-size: 1.3rem; }
+.rk-how { max-width: 75ch; }
+details.rk-test { border: 1px solid var(--border); border-radius: 12px; padding: 8px 12px; margin: 8px 0; background: var(--surface-2); }
+details.rk-test > summary { cursor: pointer; font-weight: 650; min-height: 32px; display: list-item; }
+.rk-how-label { display: inline-block; font-size: 0.75rem; font-weight: 650; padding: 1px 8px; border-radius: 999px; background: var(--yellow-wash); color: var(--ink); margin-right: 2px; }
+.rk-test p { max-width: 80ch; font-size: 0.93rem; }
+.rk-drawing { max-width: 660px; margin: 8px 0; }
+.rk-drawing svg { width: 100%; height: auto; display: block; }
+.rk-answers { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.rk-answers li { display: flex; flex-direction: column; gap: 2px; }
+.rk-answer {
+  font: inherit; color: var(--ink); text-align: left; cursor: pointer; flex: 1;
+  display: flex; gap: 12px; align-items: center;
+  background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 10px 12px; min-height: 64px;
+}
+.rk-answer:hover { border-color: var(--cyan); background: var(--surface-2); }
+.rk-answer .rk-picto { flex: none; width: 84px; height: auto; }
+.rk-answer-txt { display: grid; gap: 2px; }
+.rk-answer-detail { font-size: 0.86rem; color: var(--ink-2); }
+.rk-answer-src { padding-left: 12px; }
+.rk-answer-src .src { vertical-align: baseline; font-size: 0.75rem; }
+
+/* Result */
+.rk-result-kicker { margin: 0; }
+.rk-result-name { font-size: 1.7rem; margin-bottom: 4px; }
+.rk-badges { margin: 0 0 10px; }
+.rk-badge { display: inline-block; font-size: 0.78rem; font-weight: 650; padding: 2px 10px; border-radius: 999px; background: var(--surface-2); color: var(--ink); border: 1px solid var(--border); }
+.rk-fam-loose { background: var(--yellow-wash); }
+.rk-fam-sed { background: var(--note); }
+.rk-fam-volc, .rk-fam-plut { background: var(--cyan-wash); }
+.rk-fam-meta { background: var(--surface-2); }
+.rk-result-cols { display: grid; gap: 18px; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; }
+@media (max-width: 760px) { .rk-result-cols { grid-template-columns: minmax(0, 1fr); } }
+.rk-result h3 { margin-top: 10px; }
+.rk-like { padding-left: 1.1em; display: grid; gap: 4px; font-size: 0.93rem; }
+.rk-names { margin-top: 10px; }
+
+/* Photos */
+.rk-photo { margin: 0; }
+.rk-photo img { width: 100%; height: auto; display: block; border-radius: 10px; background: var(--surface-2); }
+.rk-photo.small { max-width: 360px; margin: 8px 0; }
+.rk-photo figcaption { font-size: 0.78rem; color: var(--ink-2); margin-top: 4px; }
+
+/* Index, tests, about */
+.rk-index-cols { display: grid; gap: 6px 18px; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+.rk-index-cols ul { padding-left: 1.1em; margin: 4px 0 8px; font-size: 0.93rem; }
+.rk-index-cols h3 { margin: 8px 0 2px; }
+.rk-tests-grid { display: grid; gap: 18px; }
+.rk-tests-grid .rk-test { border-top: 1px solid var(--hairline); padding-top: 12px; }
+.rk-fixes { padding-left: 1.1em; display: grid; gap: 6px; font-size: 0.93rem; }
+.rk .table-scroll { overflow-x: auto; }
+.rk table.data { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
+.rk table.data th, .rk table.data td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+.rk table.data th { color: var(--ink-2); font-weight: 650; }
+.rk-compared td:first-child { min-width: 14em; }
+
+/* SVG drawings. Specimens keep fixed, rock-like colours in both themes
+   (a dark mineral stays dark); captions follow the theme. */
+.rk-svg { font-family: var(--font); }
+.rk-bg { fill: var(--surface-2); }
+.rk-frame { fill: none; stroke: var(--border); stroke-width: 1.2; }
+.rk-light { fill: #e6d7b5; }
+.rk-grey { fill: #b39b78; }
+.rk-dark { fill: #34383a; }
+.rk-matrix { fill: #94704b; }
+.rk-mica { fill: #cfe4e8; }
+.rk-cell { stroke: #f7f3ea; stroke-width: 0.6; }
+.rk-grain { stroke: #4a4036; stroke-width: 0.6; }
+.rk-dot { fill: #2a2622; opacity: 0.35; }
+.rk-glass { fill: #15191b; }
+.rk-ridge { fill: none; stroke: #7d878c; stroke-width: 1.1; opacity: 0.8; }
+.rk-shine { fill: none; stroke: #f4f6f6; stroke-width: 2.4; stroke-linecap: round; opacity: 0.8; }
+.rk-hole { fill: #d9d3c7; stroke: #15191b; stroke-width: 0.5; }
+.rk-pore { fill: #b39b78; opacity: 0.55; }
+.rk-bed { fill: #e6d7b5; opacity: 0.7; }
+.rk-cleave { stroke: #15191b; stroke-width: 0.7; opacity: 0.55; }
+.rk-fine-line { stroke: #f4f6f6; stroke-width: 0.6; opacity: 0.4; }
+.rk-sheen { fill: none; stroke: #cfe4e8; stroke-width: 1.1; }
+.rk-leuco { fill: none; stroke: #e6d7b5; stroke-width: 6; stroke-linecap: round; }
+.rk-crack { fill: none; stroke: #c0262f; stroke-width: 2.4; stroke-linejoin: round; }
+.rk-drop { fill: var(--cyan); opacity: 0.75; }
+.rk-bubble { fill: var(--surface); stroke: var(--cyan-strong); stroke-width: 1; }
+.rk-axis, .rk-tick { stroke: var(--ink-2); stroke-width: 1.4; }
+.rk-node { fill: var(--surface); stroke: var(--ink); stroke-width: 1.4; }
+.rk-tool { fill: var(--cyan-strong); }
+.rk-tool-txt { fill: var(--cyan-strong); font-weight: 650; }
+.rk-g1 { fill: var(--g1); } .rk-g2 { fill: var(--g2); } .rk-g3 { fill: var(--g3); } .rk-g5 { fill: var(--g5); }
+.rk-cap { font-size: 11px; fill: var(--ink); }
+.rk-cap-muted { fill: var(--ink-2); font-size: 10px; }
+.rk-strong { font-weight: 650; }
+.rk-on-g1 { fill: var(--on-g1); } .rk-on-g2 { fill: var(--on-g2); } .rk-on-g3 { fill: var(--on-g3); } .rk-on-g5 { fill: var(--on-g5); }
+.rk-picto .rk-cap { font-size: 10px; }
+.rk-photos { display: grid; gap: 12px; }
+.rk-photo.small img { width: auto; max-width: 100%; max-height: 260px; }

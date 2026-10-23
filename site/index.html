@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>outils-geo</title>
+  <meta name="description" content="Small, sourced tools for geology and geochemistry, in French and English. Silicate weathering: balanced reactions, what goes into the water, which clay is stable, stability diagrams and rates. A step-by-step rock identification key for hand specimens.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/site.css">
+  <script>
+    try { const t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+  <script type="module" src="app/main.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#/">
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><path d="M3 22 L9 9 L14 15 L18 6 L25 22 Z" fill="none" stroke="var(--green)" stroke-width="2.2" stroke-linejoin="round"/><circle cx="18" cy="18" r="3" fill="var(--cyan)"/></svg>
+      <span data-i18n="shell.home">outils-geo</span>
+    </a>
+    <div class="header-tools">
+      <div class="seg" role="group" aria-label="Language / Langue">
+        <button type="button" data-lang-btn="fr" lang="fr">FR</button>
+        <button type="button" data-lang-btn="en" lang="en">EN</button>
+      </div>
+      <button type="button" class="chip-btn" data-theme-btn data-i18n-attr="aria-label:shell.theme;title:shell.theme">
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5 A6.5 6.5 0 0 1 8 14.5 Z" fill="currentColor"/></svg>
+      </button>
+    </div>
+  </header>
+  <div class="tabbar">
+    <div class="tablist" role="tablist" id="tabs" data-i18n-attr="aria-label:tabs.label"></div>
+  </div>
+  <div class="strata" aria-hidden="true"></div>
+  <main id="panels">
+    <noscript><p>These calculators need JavaScript. / Ces calculateurs nécessitent JavaScript.</p></noscript>
+  </main>
+  <footer class="site-footer"><p data-i18n="footer"></p></footer>
+</body>
+</html>
