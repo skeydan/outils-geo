@@ -42,7 +42,7 @@ function photoFigure(id, { small = false } = {}) {
     h('figcaption', {}, `${T('Photo', 'Photo')}: ${ph.author}, `,
       h('a', { href: ph.licenceUrl, rel: 'noopener license', target: '_blank', text: ph.licence }), ', ',
       h('a', { href: ph.page, rel: 'noopener', target: '_blank', text: T('Wikimedia Commons', 'Wikimedia Commons') }),
-      T(' (resized).', ' (redimensionnée).')));
+      ph.licence.startsWith('CC BY-SA') ? T(` (modified: resized; shared under ${ph.licence}).`, ` (modifiée : redimensionnée ; partagée sous ${ph.licence}).`) : T(' (resized).', ' (redimensionnée).')));
 }
 
 function testBlock(id, { open = false, inKey = true } = {}) {
