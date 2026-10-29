@@ -197,7 +197,10 @@ npm i && npm run e2e   # browser checks with Playwright, BASE=http://localhost:9
 
 ## Deploy
 
-The site runs locally only, either way from "Run locally":
+Published at <https://geo.divergences.xyz/>: every push to `main` publishes `site/` on GitHub Pages
+(`.github/workflows/publish.yml`, no build step).
+
+Locally, either way from "Run locally":
 
 - `npm run serve`, then open <http://localhost:9427/>;
 - or the container: `docker build -t outils-geo .` and `docker run --rm -p 8080:8080 outils-geo`, then open

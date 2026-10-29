@@ -1,0 +1,47 @@
+# Every push to `main` publishes `site/` (a static site, no build step) on GitHub Pages
+# at https://geo.divergences.xyz.
+# Needs Settings > Pages > Source set to "GitHub Actions" and the custom domain geo.divergences.xyz.
+# Can also be started by hand: Actions tab > "Publish the site" > Run workflow.
+
+name: Publish the site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# one publish at a time; a newer push waits for the running one instead of cancelling it
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the site
+        uses: actions/checkout@v7
+
+      - name: Prepare GitHub Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload site/
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish on GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
