@@ -259,5 +259,3 @@ Code: MIT, see [LICENSE](LICENSE). Text, data tables and our own drawings:
 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), unless
 stated otherwise. Third-party images keep their own licence as credited.
 The rock key's photographs come from Wikimedia Commons under the licence credited with each photo (CC0, public domain, CC BY 2.0/3.0, CC BY-SA 2.0/3.0/4.0). Each photo keeps its own licence; resized versions of CC BY-SA photos are shared under the same CC BY-SA version, as credited under each photo and in the tab's credits list.
-
-Built with the help of AI coding tools; every fact is checked against the cited sources.
