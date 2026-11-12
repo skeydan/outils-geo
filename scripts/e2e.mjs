@@ -1,7 +1,7 @@
 // Browser checks: screenshots (desktop/phone x light/dark x fr/en), the tab
 // bar and hash routing of the one-page app, and scripted interaction in the
-// weathering tab and the rock key. Fails on any console error or warning, and on horizontal
-// overflow.
+// weathering tab, the rock key and the crystal-systems tab. Fails on any
+// console error or warning, and on horizontal overflow.
 //
 //   npm i            (installs playwright, dev only)
 //   npx playwright install chromium   (once, if no browser is cached)
@@ -57,6 +57,14 @@ for (const device of Object.keys(devices)) {
         const o = await overflow(page);
         ok(o <= 0, `${name} ${device}: horizontal overflow ${o}px`);
       }
+      for (const [name, q] of [['crystals', ''], ['crystals-trigonal', '?s=trigonal'], ['crystals-minerals', '?s=hexagonal&m=hexagonal']]) {
+        await page.goto(`${BASE}/#/crystals${q}`, { waitUntil: 'networkidle' });
+        await settle(page);
+        ok((await page.getAttribute('html', 'lang')) === lang, `${name}: language ${lang}`);
+        await page.screenshot({ path: `${SHOTS}/${name}-${device}-${scheme}-${lang}.png`, fullPage: true });
+        const o = await overflow(page);
+        ok(o <= 0, `${name} ${device}: horizontal overflow ${o}px`);
+      }
       await ctx.close();
     }
   }
@@ -68,7 +76,7 @@ for (const device of Object.keys(devices)) {
   await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
   await settle(page);
   const tabs = page.locator('[role="tablist"] [role="tab"]');
-  ok((await tabs.count()) === 2, `two tabs, got ${await tabs.count()}`);
+  ok((await tabs.count()) === 3, `three tabs, got ${await tabs.count()}`);
   ok((await page.getAttribute('[role="tablist"]', 'aria-label')) === 'Tools', 'tablist label');
   const tab = tabs.first();
   ok((await tab.getAttribute('aria-selected')) === 'true' && (await tab.getAttribute('tabindex')) === '0', 'tab selected and in the tab order');
@@ -84,7 +92,7 @@ for (const device of Object.keys(devices)) {
   await page.focus('[data-theme-btn]');
   await page.keyboard.press('Tab');
   ok(await tab.evaluate((el) => el === document.activeElement), 'Tab reaches the tab bar');
-  for (const [key, id] of [['ArrowRight', 'rocks'], ['ArrowLeft', 'weathering'], ['End', 'rocks'], ['Home', 'weathering'], ['ArrowLeft', 'rocks'], ['ArrowRight', 'weathering']]) {
+  for (const [key, id] of [['ArrowRight', 'rocks'], ['ArrowRight', 'crystals'], ['ArrowLeft', 'rocks'], ['End', 'crystals'], ['Home', 'weathering'], ['ArrowLeft', 'crystals'], ['ArrowRight', 'weathering']]) {
     await page.keyboard.press(key);
     await settle(page);
     ok(await page.evaluate((t) => document.activeElement.id === `tab-${t}` && document.activeElement.getAttribute('aria-selected') === 'true', id), `${key} selects ${id}`);
@@ -240,6 +248,103 @@ for (const device of Object.keys(devices)) {
   await page.click('[data-theme-btn]');
   ok((await page.getAttribute('html', 'data-theme')) === 'dark', 'theme toggle');
   await page.screenshot({ path: `${SHOTS}/interact-3-fr-dark.png` });
+  await ctx.close();
+}
+
+// ---------------------------------------------------------------- crystal systems
+{
+  const { ctx, page } = await newPage('desktop', 'light', 'en');
+  await page.goto(`${BASE}/#/crystals`, { waitUntil: 'networkidle' });
+  await settle(page);
+  ok((await page.title()) === 'Crystal systems · outils-geo', `crystals title: ${await page.title()}`);
+  const sysTabs = page.locator('.cx-sys-tabs [role="tab"]');
+  ok((await sysTabs.count()) === 7, `seven system tabs, got ${await sysTabs.count()}`);
+  ok((await page.getAttribute('.cx-sys-tabs [role="tab"][aria-selected="true"]', 'id')) === 'cx-tab-cubic', 'cubic selected by default');
+  ok((await page.textContent('.cx-sys-name')).trim().startsWith('Cubic'), `default system: ${await page.textContent('.cx-sys-name')}`);
+  ok((await page.$$('.cx-sys-panel svg')).length === 2, 'unit cell and symmetry drawings');
+  ok((await page.$$eval('.cx-stats strong', (n) => n.map((e) => e.textContent))).join(',') === '6,7,14,32,230', 'key numbers');
+  ok((await page.$$('.cx-bravais tbody tr')).length === 14, '14 Bravais lattices');
+  ok((await page.$$eval('.cx-classes tbody tr', (r) => r.length)) === 32, '32 classes listed');
+  ok((await page.$$('.cx-classes-group')).length === 7, 'classes grouped by system');
+  ok((await page.$$('.cx-form-svg')).length === 4, 'four forms drawn');
+  ok((await page.$$('.cx-minerals tbody tr')).length === 28, '28 minerals listed');
+  ok(/28 of 28 minerals shown/.test(await page.textContent('#cx-minerals')), 'mineral count line');
+
+  // A system tab: cell, constraints, classes and the route.
+  await page.click('#cx-tab-trigonal');
+  await settle(page);
+  ok(new URL(page.url()).hash === '#/crystals?s=trigonal', `trigonal route: ${page.url()}`);
+  ok((await page.textContent('.cx-sys-name')).trim().startsWith('Trigonal'), 'trigonal heading');
+  ok((await page.textContent('.cx-cell-params')).includes('γ = 120°'), 'hexagonal setting shown');
+  ok((await page.$$('.cx-sys-panel .cx-class-link')).length === 5, 'five trigonal classes linked');
+  ok((await page.getAttribute('#cx-tab-trigonal', 'aria-selected')) === 'true', 'trigonal tab selected');
+
+  // Keyboard on the system tablist.
+  await page.focus('#cx-tab-trigonal');
+  await page.keyboard.press('ArrowRight');
+  await settle(page);
+  ok(await page.evaluate(() => document.activeElement.id === 'cx-tab-hexagonal' && document.activeElement.getAttribute('aria-selected') === 'true'), 'ArrowRight selects hexagonal');
+  ok(new URL(page.url()).hash === '#/crystals?s=hexagonal', `hexagonal route: ${page.url()}`);
+  await page.keyboard.press('Home');
+  await settle(page);
+  ok(new URL(page.url()).hash === '#/crystals?s=triclinic', `Home selects triclinic: ${page.url()}`);
+
+  // Clicking a mineral example filters the table.
+  await page.click('.cx-sys-panel .cx-chip:has-text("Kyanite")');
+  await settle(page);
+  ok(new URL(page.url()).hash === '#/crystals?s=triclinic&m=triclinic', `example route: ${page.url()}`);
+  ok((await page.$$('.cx-minerals tbody tr')).length === 2, 'two triclinic minerals');
+  ok((await page.textContent('.cx-minerals tbody')).includes('Kyanite'), 'kyanite in the table');
+
+  // Filter by system and search by name.
+  await page.selectOption('#cx-min-sys', 'cubic');
+  await settle(page);
+  ok((await page.$$('.cx-minerals tbody tr')).length === 6, 'six cubic minerals');
+  ok(/6 of 28 minerals shown/.test(await page.textContent('#cx-minerals')), 'count in English');
+  await page.fill('#cx-min-q', 'pyrite');
+  await settle(page);
+  ok((await page.$$('.cx-minerals tbody tr')).length === 1, 'search narrows to one mineral');
+  ok((await page.textContent('.cx-minerals tbody')).includes('Pyrite'), 'pyrite found');
+  await page.fill('#cx-min-q', '');
+  await settle(page);
+  ok((await page.$$('.cx-minerals tbody tr')).length === 6, 'search cleared');
+  await page.screenshot({ path: `${SHOTS}/crystals-interact-en.png`, fullPage: true });
+
+  // Language and theme keep the route and the filters.
+  const before = page.url();
+  await page.click('[data-lang-btn="fr"]');
+  await settle(page);
+  ok((await page.textContent('h1')) === 'Systèmes cristallins', 'French title');
+  ok((await page.title()) === 'Systèmes cristallins · outils-geo', `French page title: ${await page.title()}`);
+  ok((await page.textContent('#tabs [role="tab"][aria-selected="true"]')) === 'Systèmes cristallins', 'French tab label');
+  ok((await page.textContent('.cx-sys-name')).trim().startsWith('Triclinique'), 'French system name');
+  ok(/6 minéraux sur 28 affichés/.test(await page.textContent('#cx-minerals')), 'French count');
+  ok(page.url() === before, `language keeps the route: ${page.url()}`);
+  await page.click('[data-theme-btn]');
+  ok((await page.getAttribute('html', 'data-theme')) === 'dark', 'crystals dark theme');
+  await page.screenshot({ path: `${SHOTS}/crystals-interact-fr-dark.png`, fullPage: true });
+
+  // Unknown state is cleaned up.
+  await page.goto(`${BASE}/#/crystals?s=nope&m=nah`, { waitUntil: 'networkidle' });
+  await settle(page);
+  ok(new URL(page.url()).hash === '#/crystals?s=cubic', `bad state rewritten: ${page.url()}`);
+  ok((await page.getAttribute('#cx-tab-cubic', 'aria-selected')) === 'true', 'fallback to cubic');
+  await ctx.close();
+}
+{
+  const { ctx, page } = await newPage('phone', 'dark', 'fr');
+  await page.goto(`${BASE}/#/crystals?s=hexagonal&m=hexagonal`, { waitUntil: 'networkidle' });
+  await settle(page);
+  ok((await overflow(page)) <= 0, `crystals phone overflow ${await overflow(page)}`);
+  ok((await page.$$('.cx-minerals tbody tr')).length === 2, 'two hexagonal minerals on phone');
+  await page.evaluate(() => document.querySelector('.cx-sys-tabs').scrollIntoView({ block: 'center' }));
+  await settle(page);
+  await page.tap('#cx-tab-cubic');
+  await settle(page);
+  ok((await page.getAttribute('#cx-tab-cubic', 'aria-selected')) === 'true', 'phone system tab tap');
+  ok(new URL(page.url()).hash === '#/crystals?s=cubic&m=hexagonal', `phone route: ${page.url()}`);
+  ok((await overflow(page)) <= 0, 'crystals phone overflow after tap');
+  await page.screenshot({ path: `${SHOTS}/crystals-phone-fr.png`, fullPage: true });
   await ctx.close();
 }
 

@@ -17,6 +17,12 @@ export const TABS = [
     module: 'tabs/rocks/js/app.js',
     css: 'tabs/rocks/css/rocks.css',
   },
+  {
+    id: 'crystals',
+    label: { en: 'Crystal systems', fr: 'Systèmes cristallins' },
+    module: 'tabs/crystals/js/app.js',
+    css: 'tabs/crystals/css/crystals.css',
+  },
 ];
 
 export const DEFAULT_TAB = TABS[0].id;

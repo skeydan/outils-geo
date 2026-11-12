@@ -96,6 +96,33 @@ The state is kept in the route (`#/weathering?m=albite&xi=-2.6&sys=Na`).
 
 The path is kept in the route as answer ids (`#/rocks?p=coherent.none.crystals`).
 
+- **Crystal systems** (tab `crystals`, FR « Systèmes cristallins »,
+  `site/tabs/crystals/`). The seven systems, each with a unit cell drawn from
+  its a, b, c, α, β, γ and a schematic of its rotation axes; the six crystal
+  families and why the hexagonal family holds two systems; the 14 Bravais
+  lattices; the 32 crystal classes with Hermann–Mauguin and Schönflies
+  symbols; Miller indices and four common forms (cube, octahedron,
+  hexagonal prism, rhombohedron); a filterable table of 28 reference minerals
+  with system, class, space group, habit, cleavage and source; a step-by-step
+  method for finding the system of a hand specimen; common confusions
+  (isometric = cubic, rhombohedral is a lattice setting, 32 point groups vs
+  230 space groups, habit is not proof); and the corrections made to the
+  starting course notes. The cells are illustrative: the lengths are chosen
+  to compare the seven shapes on screen, while the constraints (equalities,
+  right angles, 120°) are the real content.
+  - **Corrections**: the trigonal cell given as a tetragonal one; the five
+    trigonal classes placed under “hexagonal”; pyrite in 4̄3m (it is m3̄);
+    gypsum as P2₁/c (it is I2/a); ferroselite as cubic P2₁3 (it is
+    orthorhombic); anapaite's formula; and many repeated or wrong mineral
+    examples (quartz, beryl, zircon, rutile, topaz, olivine, andradite…).
+    Every correction is sourced in the tab and in the feedback file.
+  - **Structure**: the data are in `js/data.js` (systems, families, Bravais
+    lattices, classes, forms, minerals, confusions, fixes); `js/draw.js`
+    builds the SVGs from the cell parameters; `tests/crystals.test.mjs`
+    checks the counts and every cross-reference.
+
+The state is kept in the route (`#/crystals?s=trigonal&m=trigonal`).
+
 ## How the chemistry is done
 
 - **Data**: `llnl.dat` from PHREEQC 3 (LLNL thermo.com.V8.R6) for every
@@ -182,6 +209,11 @@ npm i && npm run e2e   # browser checks with Playwright, BASE=http://localhost:9
   under “foliated”; greenschist and blueschist one result with a
   thin-section caveat; photos exist, are small and openly licensed; every
   source cited.
+- `tests/crystals.test.mjs`: six families and seven systems; 32 classes and
+  14 Bravais lattices; the family counts add up (32 classes, 230 space
+  groups, 14 lattices); every class assigned to exactly one system; every
+  mineral's system and class agree and every mineral appears in its
+  system's examples; forms, confusions and fixes cite known sources.
 - `scripts/e2e.mjs`: screenshots (desktop and phone, light and dark, French
   and English, into `/tmp/geo-shots`); the tab bar (ARIA roles and links,
   keyboard, tab label and title in both languages, 44 px tab on a phone);
@@ -192,7 +224,10 @@ npm i && npm run e2e   # browser checks with Playwright, BASE=http://localhost:9
   comparison, hover and tap read-out, time, route, language and theme);
   the rock key (several paths walked, back, crumbs, start again, route,
   look-alike links, every rock of the index opens its card and its photo
-  loads, bad paths rewritten, French, dark theme, phone).
+  loads, bad paths rewritten, French, dark theme, phone); the crystal tab
+  (seven systems, keyboard, cell and symmetry drawings, 14 lattices,
+  32 classes, four forms, example filter, mineral search, bad state
+  rewritten, French, dark theme, phone).
   Fails on any console error or horizontal overflow.
 
 ## Deploy
@@ -233,6 +268,10 @@ site/
   tabs/rocks/js/drawings.js        our schematic SVG drawings
   tabs/rocks/js/app.js             the tab: mount(), one question at a time
   tabs/rocks/img/                  photos, resized WebP
+  tabs/crystals/js/data.js         systems, families, Bravais lattices, classes, forms, minerals
+  tabs/crystals/js/sources.js      sources and the corrections to the course notes
+  tabs/crystals/js/draw.js         unit cells, symmetry sketches and forms (our SVG)
+  tabs/crystals/js/app.js          the tab: mount(), system selector, filters
 deploy/default.conf.template nginx config
 tests/                       node:test unit tests
 scripts/                     e2e browser checks, data-base check
